@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -16,7 +17,8 @@ public class BallView extends View {
     private Resources res;
     private Bitmap bmpball;
     private boolean isInitBallInfo;
-    private int scalingRatio, ballW, ballH, ballX, ballY;
+    private int scalingRatio, ballW, ballH;
+    private float ballX, ballY;
     public BallView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         res = context.getResources();
@@ -43,6 +45,14 @@ public class BallView extends View {
         if(!isInitBallInfo){
             initBallInfo();
         }
-        canvas.drawBitmap(bmpball, 0, 0, null);
+        canvas.drawBitmap(bmpball, ballX, ballY, null);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        ballX = event.getX();
+        ballY = event.getY();
+        postInvalidate();
+        return true;
     }
 }
